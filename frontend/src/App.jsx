@@ -21,7 +21,6 @@ const Todo = lazy(() => import("./page/todo"));
 const Profile = lazy(() => import("./page/profile"));
 const TodoDetails = lazy(() => import("./page/todoDetails"));
 const NotFound = lazy(() => import("./page/notFound"));
-// const Pagination = lazy(() => import("./page/todoPagination"));
 const Tanstack = lazy(() => import("./page/tanstackPagination"));
 
 const router = createBrowserRouter([

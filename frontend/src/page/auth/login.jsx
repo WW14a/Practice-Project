@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Loading from "../../components/loading";
 import ErrorPage from "../../components/error";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/user";
 import { login, saveTokens } from "../../lib/api";
 import { toast } from "@/components/ui/toast";
@@ -122,6 +122,12 @@ function Login() {
               Login
             </button>
           </div>
+          <p className="text-gray-400 text-center pt-4 text-xs ml-2">
+            Don't have an account?{" "}
+            <Link to="/auth/register" className="text-blue-300 hover:underline">
+              Sign up
+            </Link>
+          </p>
         </form>
       </div>
     </div>

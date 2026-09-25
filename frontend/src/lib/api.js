@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const Backend_URL = process.env.BACKEND_URL;
+const Backend_URL = import.meta.env.VITE_BACKEND_URL;
 
 const api = axios.create({
   baseURL: Backend_URL,
@@ -60,7 +60,9 @@ function handleAuthExpired() {
   clearTokens();
   window.dispatchEvent(new Event("auth:expired"));
 
-  if (window.location.pathname !== "/auth/login") {
+  let allowedPaths = ["/auth/login", "/auth/register"];
+
+  if (!allowedPaths.includes(window.location.pathname)) {
     window.location.assign("/auth/login");
   }
 }

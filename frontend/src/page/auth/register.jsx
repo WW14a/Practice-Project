@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Loading from "../../components/loading";
 import ErrorPage from "../../components/error";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "@/components/ui/toast";
 
 function Register() {
   let [loading, setLoading] = useState(false);
@@ -17,33 +19,32 @@ function Register() {
   let formSubmit = async (data) => {
     try {
       setLoading(true);
-      const res = await fetch("https://dummyjson.com/users/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          username: data.username,
-          password: data.password,
-        }),
+      const Backend_URL = import.meta.env.VITE_BACKEND_URL;
+      console.log("Backend_URL:", Backend_URL);
+      const res = await axios.post(`${Backend_URL}/auth/register`, {
+        name: data.firstName + " " + data.lastName,
+        email: data.email,
+        password: data.password,
       });
+
+      toast.add({ type: "success", description: res.data.message });
       if (res.status === 201) {
         navigate("/auth/login");
       }
     } catch (error) {
-      setError(error.message);
+      console.error("Registration error:", error.response?.data.message);
+      toast.add({
+        type: "error",
+        description:
+          error.response?.data.message ||
+          "Registration failed. Please try again.",
+      });
     } finally {
       setLoading(false);
     }
   };
   if (loading) {
     return <Loading></Loading>;
-  }
-  if (error) {
-    return <ErrorPage error={error.message} />;
   }
 
   return (
@@ -115,30 +116,6 @@ function Register() {
             )}
           </div>
 
-          <div className="space-y-8 w-full mt-3">
-            <label className="text-gray-100 text-sm" htmlFor={"username"}>
-              Username
-            </label>
-            <br></br>
-            <input
-              className="mt-2 border text-sm text-gray-100 border-gray-700 w-full focus:outline-none focus:border-blue-300 focus:border-2  mb-2 rounded-xl p-2"
-              name="username"
-              type="text"
-              {...register("username", {
-                required: "Username is required",
-                minlength: {
-                  value: 2,
-                  message: "Username must be 2 character long",
-                },
-              })}
-            />
-            {errors && (
-              <p className="text-gray-400 text-xs">
-                {errors.username?.message}
-              </p>
-            )}
-          </div>
-
           <div className="space-y-8 w-full mt-4">
             <label className="text-gray-100 text-sm" htmlFor={"password"}>
               Password
@@ -171,6 +148,12 @@ function Register() {
               Register
             </button>
           </div>
+          <p className="text-gray-400 text-center pt-4 text-xs ml-2">
+            Already have an account?{" "}
+            <Link to="/auth/login" className="text-blue-300 hover:underline">
+              Login
+            </Link>
+          </p>
         </form>
       </div>
     </div>
