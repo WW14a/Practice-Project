@@ -125,9 +125,8 @@ Create a `backend/.env` file with the JWT secrets:
 JWT_SECRET=your_access_token_secret
 JWT_REFRESHED_SECRET=your_refresh_token_secret
 PORT=3000
+DB_URL=your_db_url
 ```
-
-The current database connection uses `mongodb://localhost:27017/mydatabase` in `backend/src/config/db.js`.
 
 ### Frontend
 
