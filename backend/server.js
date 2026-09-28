@@ -1,15 +1,14 @@
+import "dotenv/config";
 import express from "express";
 import { connectDb } from "./src/config/db.js";
 import authRouter from "./src/routes/auth.route.js";
 import userRouter from "./src/routes/user.route.js";
 import todoRouter from "./src/routes/todo.route.js";
 import epxressMiddleware from "./src/middleware/error.middleware.js";
-import dotenv from "dotenv";
 import ExpressError from "./src/utlis/error.js";
 import { isLogin } from "./src/middleware/auth.middleware.js";
 import cors from "cors";
 
-dotenv.config();
 const app = express();
 app.use(cors({ origin: process.env.FRONTEND, credentials: true }));
 

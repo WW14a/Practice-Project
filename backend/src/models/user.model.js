@@ -22,10 +22,11 @@ let UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  // refreshToken: {
-  //   type: String,
-  //   default: null,
-  // },
+
+  image: {
+    type: String,
+    default: null,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);

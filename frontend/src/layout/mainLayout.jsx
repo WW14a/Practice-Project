@@ -204,14 +204,23 @@ function MainLayout() {
               onClick={() => setIsOpen((prev) => !prev)}
               className="
                 flex items-center justify-center
-                rounded-full p-2
+                rounded-full 
                 text-gray-300
+                bg-gray-700
                 transition
-                hover:bg-gray-800
+                hover:bg-gray-600
                 hover:text-white
               "
             >
-              <CgProfile size={25} />
+              {user?.image ? (
+                <img
+                  src={user.image}
+                  alt="Profile"
+                  className="size-10  rounded-full object-contain"
+                />
+              ) : (
+                <CgProfile size={25} />
+              )}
             </button>
             {isOpen && (
               <div

@@ -3,13 +3,15 @@ import api, { clearTokens } from "../lib/api";
 import Loading from "@/components/loading";
 import { toast } from "@/components/ui/toast";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "@/context/user";
+import { Camera } from "lucide-react";
 
 function Profile() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-
+  let { setUser } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -114,6 +116,41 @@ function Profile() {
     }
   }
 
+  async function uploadProfileImage(event) {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const res = await api.post("/user/uploadImage", formData);
+
+      toast.add({
+        type: "success",
+        description: "Profile image uploaded successfully.",
+      });
+
+      setData((prev) => ({
+        ...prev,
+        image: res.data.data.image,
+      }));
+      setUser((prev) => ({
+        ...prev,
+        image: res.data.data.image,
+      }));
+    } catch (error) {
+      toast.add({
+        type: "error",
+        description:
+          error.response?.data?.message ||
+          error.message ||
+          "Unable to upload profile image.",
+      });
+    }
+  }
+
   function formatDate(value) {
     if (!value) return "Unknown";
 
@@ -138,12 +175,40 @@ function Profile() {
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 xl:gap-8">
           <div>
             <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-gray-600 bg-gray-700 p-4">
-              <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-cyan-950">
-                <img
-                  src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=500&q=60"
-                  alt="Profile"
-                  className="h-full w-full rounded-full object-cover"
-                />
+              <div className="relative">
+                {data?.image ? (
+                  <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-cyan-950">
+                    <img
+                      src={data.image}
+                      alt="Profile"
+                      className="h-full w-full rounded-full object-contain"
+                    />
+                  </div>
+                ) : (
+                  <div className=" h-34 w-34">
+                    <div className="flex items-center h-32 w-32 justify-center overflow-hidden rounded-full bg-cyan-950">
+                      <span className="text-4xl font-bold text-white">
+                        {data.name?.charAt(0).toUpperCase() || "U"}
+                      </span>
+                    </div>
+                  </div>
+                )}
+                <div className="absolute bottom-0 right-0">
+                  <label
+                    htmlFor="profile-image"
+                    className="flex  b h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-800 text-white transition hover:bg-gray-600"
+                  >
+                    <Camera size={20} />
+
+                    <input
+                      id="profile-image"
+                      type="file"
+                      accept="image/*"
+                      onChange={uploadProfileImage}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
               </div>
 
               <h3 className="text-lg font-bold italic text-white">

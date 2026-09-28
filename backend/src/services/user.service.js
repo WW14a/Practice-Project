@@ -24,6 +24,7 @@ export const userDetails = async (id) => {
     createdAt: user.createdAt,
     todoCount: countTodo,
     completedTodo: countCompletedTodo,
+    image: user.image,
     sessions: sessions.map((session) => ({
       id: session._id,
       deviceName: session.deviceName,
@@ -85,5 +86,25 @@ export const UpdateUserPassword = async (userId, newPassword) => {
     name: user.name,
     bio: user.bio,
     createdAt: user.createdAt,
+  };
+};
+
+export const uploadImage = async (userId, imagePath) => {
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { image: imagePath },
+    { new: true, runValidators: true },
+  );
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return {
+    id: user._id,
+    email: user.email,
+    name: user.name,
+    bio: user.bio,
+    createdAt: user.createdAt,
+    image: user.image,
   };
 };
