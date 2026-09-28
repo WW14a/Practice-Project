@@ -170,8 +170,3 @@ npm run preview
 - Users can upload a profile image through `/api/user/uploadImage` using a file field called `image`.
 - Uploaded images are stored in Cloudinary and saved to the user record.
 
-## Current Notes
-
-- The login page uses the project backend API.
-- The current registration page still submits to the DummyJSON example API and should be connected to `/api/auth/register` for end-to-end project registration.
-- Access and refresh tokens are currently stored in browser cookies by the frontend Axios utility.
