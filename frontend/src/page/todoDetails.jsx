@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { completeTask, deleteTask } from "../redux/slice/todoSlice";
 import api from "../lib/api";
 import Loading from "../components/loading";
 import { TbEditCircle } from "react-icons/tb";
@@ -9,7 +7,6 @@ import { TbEditCircle } from "react-icons/tb";
 function TodoDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [task, setTask] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -64,19 +61,6 @@ function TodoDetails() {
     );
   }
 
-  function removeTask() {
-    dispatch(deleteTask(task._id));
-    navigate("/dashboard");
-  }
-
-  function toggleTask() {
-    setTask((currentTask) => ({
-      ...currentTask,
-      completed: !currentTask.completed,
-    }));
-    dispatch(completeTask(task._id));
-  }
-
   return (
     <section className="mx-auto max-w-2xl px-4 py-10 text-white">
       <button
@@ -116,23 +100,6 @@ function TodoDetails() {
         <div className="border-t border-gray-800 pt-5">
           <p className="text-sm text-gray-500">Task ID</p>
           <p className="mt-1 text-sm text-gray-300">{task._id}</p>
-        </div>
-
-        <div className="mt-8 flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={toggleTask}
-            className="rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200"
-          >
-            {task.completed ? "Mark active" : "Mark complete"}
-          </button>
-          <button
-            type="button"
-            onClick={removeTask}
-            className="rounded-lg border border-red-900 px-4 py-2 text-sm text-red-300 hover:bg-red-950"
-          >
-            Delete todo
-          </button>
         </div>
       </div>
     </section>

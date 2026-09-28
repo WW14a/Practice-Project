@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { completeTask, deleteTask } from "../redux/slice/todoSlice";
 import api from "../lib/api";
 import Loading from "../components/loading";
-import Input from "@/components/input";
 import { Controller, useForm } from "react-hook-form";
 import {
   Select,
@@ -18,7 +16,6 @@ import { toast } from "@/components/ui/toast";
 function TodoEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [task, setTask] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -78,19 +75,6 @@ function TodoEdit() {
         </button>
       </section>
     );
-  }
-
-  function removeTask() {
-    dispatch(deleteTask(task._id));
-    navigate("/dashboard");
-  }
-
-  function toggleTask() {
-    setTask((currentTask) => ({
-      ...currentTask,
-      completed: !currentTask.completed,
-    }));
-    dispatch(completeTask(task._id));
   }
 
   async function onSubmit(data) {
@@ -198,24 +182,7 @@ function TodoEdit() {
           <p className="mt-1 text-sm text-gray-300">{task._id}</p>
         </div>
 
-        <div className="mt-8 flex justify-between  flex-wrap gap-3">
-          <div>
-            <button
-              type="button"
-              onClick={toggleTask}
-              className=" mr-4 rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200"
-            >
-              {task.completed ? "Mark active" : "Mark complete"}
-            </button>
-            <button
-              type="button"
-              onClick={removeTask}
-              className="rounded-lg border border-red-900 px-4 py-2 text-sm text-red-300 hover:bg-red-950"
-            >
-              Delete todo
-            </button>
-          </div>
-
+        <div className="mt-8 flex justify-end  flex-wrap gap-3">
           <button
             type="submit"
             form="update-form"

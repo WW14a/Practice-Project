@@ -3,6 +3,7 @@ import {
   createUser,
   Login,
   Logout,
+  LogoutAll,
   refreshToken,
 } from "../controller/auth.controller.js";
 import { wrapasync } from "../utlis/wrapasync.js";
@@ -16,5 +17,6 @@ router.post("/register", validateSchema(registerSchema), wrapasync(createUser));
 router.post("/login", validateSchema(loginSchema), wrapasync(Login));
 router.post("/refresh", wrapasync(refreshToken));
 router.post("/logout", isLogin, wrapasync(Logout));
+router.post("/logoutall", isLogin, wrapasync(LogoutAll));
 
 export default router;

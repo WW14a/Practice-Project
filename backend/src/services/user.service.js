@@ -1,14 +1,37 @@
+import Session from "../models/session.model.js";
+import Todo from "../models/todo.model.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 
 export const userDetails = async (id) => {
   const user = await User.findById(id);
+  if (!user) {
+    throw new ExpressError("User not found");
+  }
+
+  const sessions = await Session.find({ userId: id, revokedAt: null });
+  const countTodo = await Todo.countDocuments({ user: id });
+  const countCompletedTodo = await Todo.countDocuments({
+    user: id,
+    completed: true,
+  });
+
   return {
     id: user._id,
     email: user.email,
     name: user.name,
     bio: user.bio,
     createdAt: user.createdAt,
+    todoCount: countTodo,
+    completedTodo: countCompletedTodo,
+    sessions: sessions.map((session) => ({
+      id: session._id,
+      deviceName: session.deviceName,
+      deviceType: session.deviceType,
+      userAgent: session.userAgent,
+      ipAddress: session.ipAddress,
+      expiresAt: session.expiresAt,
+    })),
   };
 };
 

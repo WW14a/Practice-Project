@@ -1,7 +1,7 @@
 import * as TodoService from "../services/todo.service.js";
 
 export const getTodos = async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.auth.userId;
   let page = req.query.page || 1;
   let limit = req.query.limit || 10;
   let search = req.query.search || "";
@@ -13,7 +13,7 @@ export const getTodos = async (req, res) => {
 };
 
 export const createTodo = async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.auth.userId;
   const todoData = { ...req.body, user: userId };
   const todo = await TodoService.createTodo(todoData);
   res.status(201).json({ success: true, data: todo });

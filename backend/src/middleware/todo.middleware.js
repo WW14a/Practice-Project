@@ -1,7 +1,7 @@
 import Todo from "../models/todo.model.js";
 
 export const isValidTodo = async (req, res, next) => {
-  const todo = await Todo.findById(req.params.id, { userId: req.user._id });
+  const todo = await Todo.findById(req.params.id, { userId: req.auth.userId });
   if (!todo) {
     return res.status(404).json({ message: "Todo not found" });
   }
