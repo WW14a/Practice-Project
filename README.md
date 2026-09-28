@@ -23,6 +23,8 @@ A full-stack todo application built to practice modern React patterns, REST API 
 - bcrypt password hashing
 - Zod request validation
 - CORS and dotenv configuration
+- Multi-session authentication for multiple windows and browsers
+- Cloudinary profile image upload
 
 ## Frontend Features
 
@@ -49,6 +51,9 @@ A full-stack todo application built to practice modern React patterns, REST API 
 
 - Authentication module with register, login, refresh-token, and logout flows
 - Short-lived access tokens and long-lived refresh tokens
+- Multi-session support so the same user can stay logged in across multiple windows and browsers
+- Session tracking with device, user-agent, IP, expiry, and revocation metadata
+- Refresh token rotation and session invalidation support
 - Password hashing with bcrypt
 - Authentication middleware for protected API routes
 - Zod schemas for register, login, user update, password update, todo creation, and todo update requests
@@ -57,9 +62,10 @@ A full-stack todo application built to practice modern React patterns, REST API 
 - Centralized Express error handling and 404 handling
 - Todo module with CRUD operations
 - User module for profile and account operations
+- Profile image upload via Cloudinary
 - Auth module for authentication operations
 - Service and controller separation
-- Mongoose models for users and todos
+- Mongoose models for users, sessions, and todos
 - User-scoped todo queries
 - Server-side pagination, search, sorting, and total-count responses
 - Mongoose validation and relationships between users and todos
@@ -119,13 +125,17 @@ For automatic restarts during development:
 npx nodemon server.js
 ```
 
-Create a `backend/.env` file with the JWT secrets:
+Create a `backend/.env` file with the required secrets and Cloudinary config:
 
 ```env
 JWT_SECRET=your_access_token_secret
 JWT_REFRESHED_SECRET=your_refresh_token_secret
 PORT=3000
 DB_URL=your_db_url
+FRONTEND=http://localhost:5173
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 ### Frontend
@@ -148,9 +158,17 @@ npm run preview
 
 ## API Modules
 
-- `/api/auth` - register, login, refresh token, and logout
-- `/api/user` - protected user profile and account operations
+- `/api/auth` - register, login, refresh token, logout, and logout-all
+- `/api/user` - protected user profile, account operations, and profile image upload
 - `/api/todo` - protected todo CRUD, pagination, and search
+
+## Session and Profile Upload Notes
+
+- The backend supports multiple active sessions for one user, so the same account can remain logged in across different windows or browsers.
+- Each session is tracked separately with expiry and revocation support.
+- Refresh tokens rotate after use to improve session security.
+- Users can upload a profile image through `/api/user/uploadImage` using a file field called `image`.
+- Uploaded images are stored in Cloudinary and saved to the user record.
 
 ## Current Notes
 
