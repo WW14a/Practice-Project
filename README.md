@@ -122,7 +122,7 @@ node server.js
 For automatic restarts during development:
 
 ```bash
-npx nodemon server.js
+nodemon server.js
 ```
 
 Create a `backend/.env` file with the required secrets and Cloudinary config:
