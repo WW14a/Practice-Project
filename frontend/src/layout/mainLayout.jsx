@@ -4,10 +4,9 @@ import { SiTodoist } from "react-icons/si";
 import { CgProfile, CgCheckO, CgTimelapse, CgList } from "react-icons/cg";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../context/user";
-import { TbLoader3 } from "react-icons/tb";
+import { TbLoader3, TbLanguage, TbPlugConnected } from "react-icons/tb";
 import { clearTokens } from "../lib/api";
 import api from "../lib/api";
-import { useDispatch } from "react-redux";
 import { toast } from "@/components/ui/toast";
 
 function MainLayout() {
@@ -166,6 +165,42 @@ function MainLayout() {
             <TbLoader3 size={22} />
 
             <span className="ml-3 hidden text-sm md:block">Routes Loader</span>
+          </Link>
+
+          <Link
+            to="/i18n"
+            className={`
+              mb-2 flex items-center justify-center rounded-lg
+              px-2 py-3 transition
+              md:justify-start md:px-3
+              ${
+                path === "i18n"
+                  ? "bg-gray-800 text-white"
+                  : "text-gray-400 hover:bg-gray-800 hover:text-white"
+              }
+            `}
+          >
+            <TbLanguage size={22} />
+
+            <span className="ml-3 hidden text-sm md:block">i18n Demo</span>
+          </Link>
+
+          <Link
+            to="/socket"
+            className={`
+              mb-2 flex items-center justify-center rounded-lg
+              px-2 py-3 transition
+              md:justify-start md:px-3
+              ${
+                path === "socket"
+                  ? "bg-gray-800 text-white"
+                  : "text-gray-400 hover:bg-gray-800 hover:text-white"
+              }
+            `}
+          >
+            <TbPlugConnected size={22} />
+
+            <span className="ml-3 hidden text-sm md:block">Socket Demo</span>
           </Link>
         </nav>
 

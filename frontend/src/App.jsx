@@ -22,6 +22,8 @@ const Profile = lazy(() => import("./page/profile"));
 const TodoDetails = lazy(() => import("./page/todoDetails"));
 const NotFound = lazy(() => import("./page/notFound"));
 const Tanstack = lazy(() => import("./page/tanstackPagination"));
+const I18nDemo = lazy(() => import("./page/i18nDemo"));
+const SocketDemo = lazy(() => import("./page/socketDemo"));
 
 const router = createBrowserRouter([
   {
@@ -79,6 +81,14 @@ const router = createBrowserRouter([
             path: "/routesloader",
             element: <Routesloader />,
             loader: getData,
+          },
+          {
+            path: "/i18n",
+            element: <I18nDemo />,
+          },
+          {
+            path: "/socket",
+            element: <SocketDemo />,
           },
         ],
       },

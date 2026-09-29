@@ -6,6 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./components/errorFallback.jsx";
 
+import "@/i18n.js";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ErrorBoundary FallbackComponent={ErrorFallback}>

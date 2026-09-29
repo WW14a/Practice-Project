@@ -10,11 +10,24 @@ import { isLogin } from "./src/middleware/auth.middleware.js";
 import cors from "cors";
 import helmet from "helmet";
 import { tokenBucket } from "./src/middleware/rateLimiter.middleware.js";
+import { Server } from "socket.io";
+import socketHandler from "./src/socket/socket.js";
+import http from "http";
+
 const app = express();
 app.use(helmet());
 app.use(cors({ origin: process.env.FRONTEND, credentials: true }));
 
 const port = process.env.PORT || 3000;
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: process.env.FRONTEND,
+  },
+  path: "/sck",
+});
+
+socketHandler(io);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -36,6 +49,6 @@ app.use((req, res, next) => {
 
 app.use(epxressMiddleware);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });

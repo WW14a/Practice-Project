@@ -1,0 +1,10 @@
+{
+  "welcome": "Welcome to my website",
+  "login": "Login",
+  "logout": "Logout",
+  "signup": "Sign Up",
+  "home": {
+    "title": "Welcome Home",
+    "description": "This is our home page."
+  }
+}
