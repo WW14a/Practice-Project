@@ -8,14 +8,17 @@ import epxressMiddleware from "./src/middleware/error.middleware.js";
 import ExpressError from "./src/utlis/error.js";
 import { isLogin } from "./src/middleware/auth.middleware.js";
 import cors from "cors";
-
+import helmet from "helmet";
+import { tokenBucket } from "./src/middleware/rateLimiter.middleware.js";
 const app = express();
+app.use(helmet());
 app.use(cors({ origin: process.env.FRONTEND, credentials: true }));
 
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(tokenBucket);
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the API" });
