@@ -14,6 +14,8 @@ A full-stack todo application built to practice modern React patterns, REST API 
 - Axios for API requests
 - Tailwind CSS and reusable UI components
 - React Error Boundary and route-level error elements for error recovery
+- i18n support with i18next and react-i18next
+- Socket.IO client integration for real-time communication
 
 ### Backend
 
@@ -23,8 +25,12 @@ A full-stack todo application built to practice modern React patterns, REST API 
 - bcrypt password hashing
 - Zod request validation
 - CORS and dotenv configuration
+- Helmet security middleware
+- Token-bucket rate limiting
+- MongoDB indexes for session expiry and query performance
 - Multi-session authentication for multiple windows and browsers
 - Cloudinary profile image upload
+- Socket.IO server integration for real-time communication
 
 ## Frontend Features
 
@@ -46,6 +52,8 @@ A full-stack todo application built to practice modern React patterns, REST API 
 - Toast notifications for user feedback
 - Responsive sidebar navigation and profile page
 - TanStack React Query Devtools for inspecting cached queries
+- Internationalized frontend text with i18next/react-i18next
+- WebSocket client communication through Socket.IO
 
 ## Backend Features
 
@@ -71,6 +79,10 @@ A full-stack todo application built to practice modern React patterns, REST API 
 - Mongoose validation and relationships between users and todos
 - CORS configured for the Vite development server
 - JSON and URL-encoded request body parsing
+- Helmet security headers
+- Token-bucket rate limiting with HTTP 429 responses when capacity is exhausted
+- MongoDB indexing, including automatic expiry indexing for sessions
+- Socket.IO WebSocket server with client connection, messaging, broadcast, and disconnect handling
 
 ## Project Structure
 
@@ -93,6 +105,7 @@ backend/
 		middleware/    Auth, validation, todo, and error middleware
 		models/        Mongoose models
 		routes/        Auth, user, and todo routes
+		socket/        Socket.IO server connection and message handlers
 		schemas/       Zod validation schemas
 		services/      Business logic
 		utlis/         Error, token, and async helper utilities
@@ -169,4 +182,3 @@ npm run preview
 - Refresh tokens rotate after use to improve session security.
 - Users can upload a profile image through `/api/user/uploadImage` using a file field called `image`.
 - Uploaded images are stored in Cloudinary and saved to the user record.
-

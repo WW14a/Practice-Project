@@ -13,6 +13,7 @@ import { tokenBucket } from "./src/middleware/rateLimiter.middleware.js";
 import { Server } from "socket.io";
 import socketHandler from "./src/socket/socket.js";
 import http from "http";
+import { connectRedis } from "./src/config/redis.config.js";
 
 const app = express();
 app.use(helmet());
@@ -27,6 +28,7 @@ const io = new Server(server, {
   path: "/sck",
 });
 
+connectRedis();
 socketHandler(io);
 
 app.use(express.json());

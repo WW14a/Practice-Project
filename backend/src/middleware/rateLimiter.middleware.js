@@ -1,7 +1,7 @@
 const buckets = new Map();
 
 const capacity = 2;
-const refillRate = 1 / 5;
+const refillRate = 100 / 60;
 
 export const tokenBucket = (req, res, next) => {
   const key = req.ip || req.connection.remoteAddress;
